@@ -1,0 +1,34 @@
+.x-border {
+  --xBorderWidth: 1px;
+  --xBorderImage: unset;
+  position: relative;
+}
+.x-border::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: var(--xBorderWidth) solid transparent;
+  border-image: var(--xBorderImage);
+  border-radius: inherit;
+  background-image: var(--xBg);
+  transition: var(--xBgTransition);
+  pointer-events: none;
+}
+/* .x-border::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: var(--xBorderWidth) solid transparent;
+  border-radius: inherit;
+  border-image: var(--xBorderImage);
+  background-image: var(--xBg);
+  background-image: var(--xBorderImage);
+  background-origin: border-box;
+  pointer-events: none;
+} */
