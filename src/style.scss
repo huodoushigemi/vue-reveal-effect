@@ -1,34 +1,35 @@
-.x-border {
+.x-reveal-effect {
   --xBorderWidth: 1px;
   --xBorderImage: unset;
   position: relative;
 }
-.x-border::before {
+
+.x-reveal-effect::before {
   content: '';
   position: absolute;
   top: 0;
   right: 0;
   bottom: 0;
   left: 0;
-  border: var(--xBorderWidth) solid transparent;
-  border-image: var(--xBorderImage);
-  border-radius: inherit;
-  background-image: var(--xBg);
-  transition: var(--xBgTransition);
-  pointer-events: none;
-}
-/* .x-border::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  border: var(--xBorderWidth) solid transparent;
-  border-radius: inherit;
-  border-image: var(--xBorderImage);
-  background-image: var(--xBg);
-  background-image: var(--xBorderImage);
+  // background-image: var(--xRadialGradient);
+  background-image: var(--xRadialGradient), var(--xRadialGradient2);
   background-origin: border-box;
+  transition: opacity 1.5s;
+  opacity: 1;
   pointer-events: none;
-} */
+  z-index: 1;
+}
+
+.x-reveal-effect::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border: var(--xBorderWidth) solid transparent;
+  border-image: var(--xBorderImage);
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 1;
+}

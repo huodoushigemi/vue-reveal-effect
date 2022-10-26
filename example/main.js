@@ -1,7 +1,7 @@
-import { createApp } from "vue";
-import "./style.css";
-import App from "./App.vue";
+import { createApp } from 'vue'
+import './style.css'
+import App from './App.vue'
 
-import vBorderLight from "../src";
+import RevealEffect from '../src/index'
 
-createApp(App).use(vBorderLight).mount("#app");
+createApp(App).use(RevealEffect).mount('#app')
