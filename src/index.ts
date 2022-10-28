@@ -1,4 +1,4 @@
-import { Directive, Plugin } from 'vue'
+import { Directive, Plugin, unref } from 'vue'
 import { name, RevealEffectProps } from './interface'
 import { UseRevealEffect, useRevealEffect } from './useRevealEffect'
 
@@ -12,13 +12,17 @@ const RevealEffect: Directive<HTMLElement, RevealEffectProps> & Plugin & { name:
     app.directive(name, RevealEffect)
   },
   mounted(el, binding) {
-    // if (has) return
-    // has = true
-    const reveal = useRevealEffect(el, binding.value)
+    const reveal = useRevealEffect(el, {
+      ...binding.value,
+      light: unref(binding.value?.light) ?? binding.modifiers.light
+    })
     map.set(el, reveal)
   },
   updated(el, binding) {
-    map.get(el)?.update(binding.value)
+    map.get(el)?.update({
+      ...binding.value,
+      light: unref(binding.value?.light) ?? binding.modifiers.light
+    })
   },
   unmounted(el) {
     map.get(el)?.unmount()

@@ -11,8 +11,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  // background-image: var(--xRadialGradient);
-  background-image: var(--xRadialGradient), var(--xRadialGradient2);
+  background-image: var(--xRadialGradient), var(--xSplash);
   background-origin: border-box;
   transition: opacity 1.5s;
   opacity: 1;

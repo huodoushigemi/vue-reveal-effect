@@ -1,6 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import {useFps} from '@vueuse/core'
+import { useFps } from '@vueuse/core'
 
 defineProps({
   msg: String
@@ -12,9 +12,9 @@ const count = ref(0)
 </script>
 
 <template>
-  <h1 v-reveal-effect="{ borderWidth: 2 }">{{ msg }}</h1>
+  <h1 v-reveal-effect>{{ msg }}</h1>
 
-  <span v-reveal-effect style="font-size: 2em;">{{ fps }} FPS</span>
+  <span v-reveal-effect style="font-size: 2em">{{ fps }} FPS</span>
 
   <p>
     Check out
