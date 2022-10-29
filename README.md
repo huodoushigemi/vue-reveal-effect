@@ -1,4 +1,5 @@
 ### 描边效果
+![1](./example/assets/readme/1.png)
 
 ### Demo
 

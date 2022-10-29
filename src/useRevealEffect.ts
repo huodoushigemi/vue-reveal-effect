@@ -32,7 +32,6 @@ const source2 = 1
 export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProps) {
   const ins = { el: elRef, update, mount, unmount }
   const defDuration = 1000
-  mount()
 
   const el = unrefElement(elRef)
   const { pressed } = useMousePressed({ target: el })
@@ -49,7 +48,6 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
       } else {
         await reset()
       }
-      // await reset()
     }
   })
 
@@ -75,7 +73,6 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
   const gradient1 = [0, 25, 75]
   const gradient2 = [0, 75, 125]
   const gradient = computed(() => gradient2.map((e, i) => gradient1[i] + (e - gradient1[i]) * animation.value))
-  const showSplash = computed(() => handing.value || pressed.value)
 
   function reset() {
     duration.value = 1
@@ -92,6 +89,8 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
     return until(complete).toBeTruthy()
   }
 
+  let KnockP = { x: null, y: null }
+
   function update($props?: RevealEffectProps) {
     if ($props) props = $props
     let _props = Object.keys(props ?? {}).reduce((o, e) => ((o[e] = unref(props[e])), o), {}) as RevealEffectProps2
@@ -106,7 +105,6 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
     removeBorder()
     const rect = el.getBoundingClientRect()
     if (_props.borderWidth && knock([px.value, py.value], rect, _props.borderGradientSize)) {
-      el.classList.add(prefixCls)
       const x = px.value - rect.x
       const y = py.value - rect.y
       const vars = {
@@ -120,40 +118,33 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
 
     // background
     removeBg()
-    if (_props.bg && knock([px.value, py.value], rect)) {
-      console.log(11)
+    const hasKnock = knock([px.value, py.value], rect)
 
-      const x = px.value - rect.x
-      const y = py.value - rect.y
-      const tcolor = new TinyColor(_props.bg)
-      const low = 0.1
-      const high = 1.2
-      const bg = tcolor
-        .clone()
-        .setAlpha(tcolor.getAlpha() * 0.1)
-        .toHex8String()
-      const bg2 = tcolor
-        .clone()
-        .setAlpha(tcolor.getAlpha() * (low + (high - low) * (1 - animation.value)))
-        .toHex8String()
+    if ((hasKnock || handing.value) && _props.bg) {
+      if (hasKnock) KnockP = { x: px.value, y: py.value }
 
-      const rg = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bg}, transparent 100%)`
-      const vars = {
-        xBg: bg,
-        xRadialGradient: rg,
-        xSplash: 'none'
+      const x = KnockP.x - rect.x
+      const y = KnockP.y - rect.y
+
+      if (hasKnock) {
+        const radialGradient = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bg}, transparent 100%)`
+        el.style.setProperty(`--xRadialGradient`, radialGradient)
       }
-      if (_props.clickEffect && showSplash.value) {
-        vars.xSplash = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, transparent ${gradient.value[0]}%, ${bg2} ${gradient.value[1]}%, transparent ${gradient.value[2]}%)`
-      }
-      for (const key in vars) {
-        el.style.setProperty(`--${key}`, vars[key])
+
+      // splash
+      if (handing.value && _props.clickEffect) {
+        const low = 0.1
+        const high = 1.2
+        const tcolor = new TinyColor(_props.bg)
+        const color = tcolor.setAlpha(tcolor.getAlpha() * (low + (high - low) * (1 - animation.value))).toHex8String()
+        const splash = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, transparent ${gradient.value[0]}%, ${color} ${gradient.value[1]}%, transparent ${gradient.value[2]}%)`
+        el.style.setProperty(`--xSplash`, splash)
       }
     }
   }
 
   function removeBg() {
-    ;['xBg', 'xRadialGradient', 'xSplash'].forEach(e => {
+    ;['xRadialGradient', 'xSplash'].forEach(e => {
       el.style.removeProperty(`--${e}`)
     })
   }
@@ -164,6 +155,7 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
   }
 
   function mount() {
+    el.classList.add(prefixCls)
     list.includes(ins) || list.push(ins)
   }
   function unmount() {
@@ -172,6 +164,8 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
     remove(list, ins)
     el.classList.remove(prefixCls)
   }
+
+  mount()
 
   return ins
 }

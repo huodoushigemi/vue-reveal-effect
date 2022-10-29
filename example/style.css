@@ -1,7 +1,6 @@
 :root {
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 24px;
   font-weight: 400;
 
   color-scheme: light dark;
@@ -77,12 +76,19 @@ button {
 }
 .aic {
   display: flex;
-  align-content: center;
+  align-items: center;
+}
+.jcse {
+  justify-content: space-evenly;
 }
 .flexc {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.fwrap {
+  display: flex;
+  flex-wrap: wrap;
 }
 
 /* ==================================== */
