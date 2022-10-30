@@ -18,7 +18,7 @@ const fps = useFps()
       <span v-reveal-effect style="font-size: 2em">FPS {{ fps }}</span>
       <br />
 
-      <button v-reveal-effect @click="next()">{{ colorMode }}</button>
+      <button v-reveal-effect @click="next()">color-mode: {{ colorMode }}</button>
       <br />
 
       <Example1 />

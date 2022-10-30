@@ -3,7 +3,7 @@
 
 ### Demo
 
-- [asd](http://www.baidu.com)
+- https://huodoushigemi.github.io/vue-reveal-effect/
 
 ### **Requirements**
 

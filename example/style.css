@@ -52,6 +52,7 @@ button {
   border: 0;
   font-family: inherit;
   cursor: default;
+  user-select: none;
 }
 
 /* ========================================== */
