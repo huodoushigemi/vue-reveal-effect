@@ -91,7 +91,7 @@ createApp(App).use(VueRevealEffect).mount('#app')
 | light              | `MaybeRef<boolean>` |         |                            |
 | disabled           | `MaybeRef<boolean>` | false   |                            |
 
-#### Not Supported
+### Not Supported
 
 - `border-radius` attribute of css is not supported
 - `<img />` tag of html is not supported
