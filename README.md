@@ -1,5 +1,6 @@
 ### 描边效果
-![vue-reveal-effect](https://raw.githubusercontent.com/huodoushigemi/vue-reveal-effect/main/example/doc/screensgot.png)
+
+![vue-reveal-effect](https://raw.githubusercontent.com/huodoushigemi/vue-reveal-effect/main/example/doc/screenshot.png)
 
 ### Demo
 
@@ -79,17 +80,18 @@ createApp(App).use(VueRevealEffect).mount('#app')
 
 ### **Props**
 
-| name           | Type                | Default | Description                |
-| -------------- | ------------------- | ------- | -------------------------- |
-| borderWidth    | `MaybeRef<number>`  | 1       |                            |
-| borderColor    | `MaybeRef<string>`  |         |                            |
-| borderSize     | `MaybeRef<number>`  | 130     |                            |
-| bgColor        | `MaybeRef<string>`  |         |                            |
-| bgGradientSize | `MaybeRef<number>`  | 100     |                            |
-| clickEffect    | `MaybeRef<boolean>` | true    | Enable ripple click effect |
-| disabled       | `MaybeRef<boolean>` | false   |                            |
-
+| name               | Type                | Default | Description                |
+| ------------------ | ------------------- | ------- | -------------------------- |
+| borderWidth        | `MaybeRef<number>`  | 1       |                            |
+| borderColor        | `MaybeRef<string>`  |         |                            |
+| borderGradientSize | `MaybeRef<number>`  | 100     |                            |
+| bgColor            | `MaybeRef<string>`  |         |                            |
+| bgGradientSize     | `MaybeRef<number>`  | 130     |                            |
+| clickEffect        | `MaybeRef<boolean>` | true    | Enable ripple click effect |
+| light              | `MaybeRef<boolean>` |         |                            |
+| disabled           | `MaybeRef<boolean>` | false   |                            |
 
 #### Not Supported
+
 - `border-radius` attribute of css is not supported
 - `<img />` tag of html is not supported
