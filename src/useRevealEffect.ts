@@ -4,7 +4,7 @@ import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
 
 import { darkProps, defProps, lightProps, prefixCls, RevealEffectProps, RevealEffectProps2 } from './interface'
-import './style.scss'
+import './style.css'
 
 // 边缘检测
 function knock(p: [number, number], rect: DOMRect, threshold = 0) {
@@ -13,8 +13,8 @@ function knock(p: [number, number], rect: DOMRect, threshold = 0) {
   return x >= -threshold && x <= rect.width + threshold && y >= -threshold && y <= rect.height + threshold
 }
 
-// 鼠标状态
-const { x: px, y: py } = useMouse()
+// 鼠标位置
+const { x: px, y: py } = useMouse({ initialValue: { x: null, y: null } })
 
 const list = reactive<UseRevealEffect[]>([])
 
@@ -24,10 +24,17 @@ watchEffect(() => {
   })
 })
 
-export type UseRevealEffect = ReturnType<typeof useRevealEffect>
+// =====================================================================================
 
-const source1 = 0
-const source2 = 1
+let defaultProps = reactive<RevealEffectProps>({})
+
+export function setDefaultProps(props: RevealEffectProps) {
+  defaultProps = reactive(props)
+}
+
+// =====================================================================================
+
+export type UseRevealEffect = ReturnType<typeof useRevealEffect>
 
 export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProps) {
   const ins = { el: elRef, update, mount, unmount }
@@ -40,7 +47,7 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
     // 按下
     if (val) {
       if (handing.value) await reset()
-      source.value = source2
+      source.value = 1
     } else {
       if (handing.value) {
         duration.value = 300
@@ -52,7 +59,7 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
   })
 
   // 点击效果 动画
-  const source = ref(source1)
+  const source = ref(0)
   const duration = ref(defDuration)
   const handing = ref(false)
   const disabled = ref(false)
@@ -76,7 +83,7 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
 
   function reset() {
     duration.value = 1
-    source.value = source1
+    source.value = 0
     disabled.value = false
     const complete = ref(false)
     requestAnimationFrame(() => {
@@ -92,13 +99,17 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
   let KnockP = { x: null, y: null }
 
   function update($props?: RevealEffectProps) {
+    if (px.value == null || py.value == null) return
+
     if ($props) props = $props
     let _props = Object.keys(props ?? {}).reduce((o, e) => ((o[e] = unref(props[e])), o), {}) as RevealEffectProps2
+    const light = [_props.light, defaultProps?.light, defProps.light].map(unref).find(e => e != null)
     _props = {
       ...defProps,
+      ...defaultProps,
       ..._props,
-      borderColor: hasOwn(_props, 'borderColor') ? _props.borderColor : _props.light ? lightProps.borderColor : darkProps.borderColor,
-      bg: hasOwn(_props, 'bg') ? _props.bg : _props.light ? lightProps.bg : darkProps.bg
+      borderColor: hasOwn(_props, 'borderColor') ? _props.borderColor : light ? lightProps.borderColor : darkProps.borderColor,
+      bg: hasOwn(_props, 'bg') ? _props.bg : light ? lightProps.bg : darkProps.bg
     }
 
     // border
@@ -134,7 +145,7 @@ export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProp
       // splash
       if (handing.value && _props.clickEffect) {
         const low = 0.1
-        const high = 1.2
+        const high = 1
         const tcolor = new TinyColor(_props.bg)
         const color = tcolor.setAlpha(tcolor.getAlpha() * (low + (high - low) * (1 - animation.value))).toHex8String()
         const splash = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, transparent ${gradient.value[0]}%, ${color} ${gradient.value[1]}%, transparent ${gradient.value[2]}%)`

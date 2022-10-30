@@ -1,10 +1,9 @@
 import { Directive, Plugin, unref } from 'vue'
 import { name, RevealEffectProps } from './interface'
 import { UseRevealEffect, useRevealEffect } from './useRevealEffect'
+export * from './useRevealEffect'
 
 const map = new WeakMap<HTMLElement, UseRevealEffect>()
-
-let has = false
 
 const RevealEffect: Directive<HTMLElement, RevealEffectProps> & Plugin & { name: string } = {
   name,

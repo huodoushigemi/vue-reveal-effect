@@ -1,5 +1,5 @@
 ### 描边效果
-![1](./example/assets/readme/1.png)
+![vue-reveal-effect](https://raw.githubusercontent.com/huodoushigemi/vue-reveal-effect/main/example/doc/screensgot.png)
 
 ### Demo
 
@@ -88,3 +88,8 @@ createApp(App).use(VueRevealEffect).mount('#app')
 | bgGradientSize | `MaybeRef<number>`  | 100     |                            |
 | clickEffect    | `MaybeRef<boolean>` | true    | Enable ripple click effect |
 | disabled       | `MaybeRef<boolean>` | false   |                            |
+
+
+#### Not Supported
+- `border-radius` attribute of css is not supported
+- `<img />` tag of html is not supported

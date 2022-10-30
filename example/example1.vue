@@ -1,9 +1,9 @@
 <script setup>
-const modules = import.meta.glob('./assets/*')
+const modules = import.meta.glob('./assets/*', { eager: true })
 
 const imgs = Object.keys(modules).map(e => ({
   name: e.replace(/(.*\/)*([^.]+).*/, '$2').replace('Microsoft-', ''),
-  url: new URL(e, import.meta.url).href
+  url: modules[e].default
 }))
 
 const opt = {
@@ -14,7 +14,7 @@ const opt = {
 
 <template>
   <div class="container fwrap" style="width: 420px">
-    <div v-reveal-effect.light="opt" v-for="(item, index) in imgs" :key="index" class="img flexc">
+    <div v-reveal-effect="opt" v-for="(item, index) in imgs" :key="index" class="img flexc">
       <img :src="item.url" />
       <span class="name">{{ item.name }}</span>
     </div>
@@ -30,12 +30,12 @@ const opt = {
   position: relative;
   width: 100px;
   height: 100px;
-  background: #353535;
+  background: var(--bg-secondary);
   box-sizing: border-box;
   user-select: none;
 }
 
-.img:hover::after {
+.img:hover::before {
   content: '';
   position: absolute;
   top: 0;

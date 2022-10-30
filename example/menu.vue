@@ -1,6 +1,6 @@
 <template>
   <div class="menu">
-    <div v-reveal-effect.light="{ borderGradientSize: 80, bgGradientSize: 200 }" v-for="index in 30" class="li">item {{ index }}</div>
+    <div v-reveal-effect="{ borderGradientSize: 80, bgGradientSize: 200 }" v-for="index in 30" class="li">item {{ index }}</div>
   </div>
 </template>
 
