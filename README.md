@@ -57,9 +57,9 @@ createApp(App).use(VueRevealEffect).mount('#app')
 
 ```html
 <template>
-  <h1 v-reveal-effect>VUE REVEAL EFFECT</h1>
-  <h1 v-reveal-effect="options1">VUE REVEAL EFFECT</h1>
-  <h1 v-reveal-effect="options2">VUE REVEAL EFFECT</h1>
+  <h1 v-reveal-effect> VUE REVEAL EFFECT </h1>
+  <h1 v-reveal-effect="options1"> VUE REVEAL EFFECT </h1>
+  <h1 v-reveal-effect="options2"> VUE REVEAL EFFECT </h1>
 </template>
 
 <script setup>
