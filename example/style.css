@@ -58,12 +58,16 @@ button {
 /* ========================================== */
 .space-x {
   display: flex;
-  gap: 8px;
+}
+.space-x > * {
+  margin-right: 8px;
 }
 .space-y {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+}
+.space-y > * {
+  margin-bottom: 8px;
 }
 .row {
   display: flex;
@@ -78,6 +82,7 @@ button {
 .jcc {
   display: flex;
   justify-content: center;
+  align-items: center;
 }
 .aic {
   display: flex;
