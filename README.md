@@ -1,23 +1,29 @@
-### 描边效果
+<center>
+<h2>Vue Reveal Effect</h2>
+
+[![fork](https://img.shields.io/github/forks/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
+[![stars](https://img.shields.io/github/stars/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
+
+</center>
 
 ![vue-reveal-effect](https://raw.githubusercontent.com/huodoushigemi/vue-reveal-effect/main/example/doc/screenshot.png)
 
-### Demo
+## 🌈 Demo
 
 - https://huodoushigemi.github.io/vue-reveal-effect/
 
-### **Requirements**
+## 🚀 Requirements
 
 - Chorme 76+
 - Vue 3+
 
-### **Install**
+## ⚙️ Installation
 
 ```coffeescript
 npm i -S vue-reveal-effect
 ```
 
-### **Use in JS**
+## 🦄 Use in JS
 
 ```html
 <h1 id="reveal1">REVEAL EFFECT</h1>
@@ -46,7 +52,7 @@ npm i -S vue-reveal-effect
 </script>
 ```
 
-### **Use in Vue**
+## 🦄 Use in Vue
 
 ```js
 import { createApp } from 'vue'
@@ -57,9 +63,9 @@ createApp(App).use(VueRevealEffect).mount('#app')
 
 ```html
 <template>
-  <h1 v-reveal-effect> VUE REVEAL EFFECT </h1>
-  <h1 v-reveal-effect="options1"> VUE REVEAL EFFECT </h1>
-  <h1 v-reveal-effect="options2"> VUE REVEAL EFFECT </h1>
+  <h1 v-reveal-effect>VUE REVEAL EFFECT</h1>
+  <h1 v-reveal-effect="options1">VUE REVEAL EFFECT</h1>
+  <h1 v-reveal-effect="options2">VUE REVEAL EFFECT</h1>
 </template>
 
 <script setup>
@@ -78,9 +84,9 @@ createApp(App).use(VueRevealEffect).mount('#app')
 </script>
 ```
 
-### **Props**
+## 📄 Props
 
-| name               | Type                | Default | Description                |
+| Name               | Type                | Default | Description                |
 | ------------------ | ------------------- | ------- | -------------------------- |
 | borderWidth        | `MaybeRef<number>`  | 1       |                            |
 | borderColor        | `MaybeRef<string>`  |         |                            |
@@ -91,7 +97,18 @@ createApp(App).use(VueRevealEffect).mount('#app')
 | light              | `MaybeRef<boolean>` |         |                            |
 | disabled           | `MaybeRef<boolean>` | false   |                            |
 
-### Not Supported
+## ☹ Not Supported
 
-- `border-radius` attribute of css is not supported
-- `<img />` tag of html is not supported
+- ❌ `border-radius` attribute of css is not supported
+- ❌ `<img />` tag of html is not supported
+
+## ⭐️ Show Your Support
+
+Please give a ⭐️ if this project helped you!
+
+## 👏 Contributing
+
+If you have any questions or requests or want to contribute, please write the issue or give me a Pull Request freely.
+
+[![fork](https://img.shields.io/github/forks/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
+[![fork](https://img.shields.io/github/stars/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
