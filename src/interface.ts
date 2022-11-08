@@ -1,7 +1,5 @@
 import { MaybeRef, usePreferredDark } from '@vueuse/core'
-import { DirectiveBinding, UnwrapRef, Ref } from 'vue'
-
-type a = UnwrapRef<Ref<0>>
+import { Ref } from 'vue'
 
 export const name = 'reveal-effect'
 export const prefixCls = `x-${name}`
@@ -33,8 +31,3 @@ export type RevealEffectProps = {
 }
 
 export type RevealEffectProps2 = typeof defProps
-
-export interface State {
-  el: HTMLElement
-  binding: DirectiveBinding<RevealEffectProps>
-}

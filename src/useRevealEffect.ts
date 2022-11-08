@@ -1,4 +1,4 @@
-import { hasOwn, MaybeElementRef, unrefElement, until, useMouse, useMousePressed, useTransition } from '@vueuse/core'
+import { hasOwn, MaybeComputedRef, MaybeElement, MaybeElementRef, MaybeRef, unrefElement, until, useMouse, useMousePressed, useTransition } from '@vueuse/core'
 import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from 'vue'
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
@@ -36,7 +36,7 @@ export function setDefaultProps(props: RevealEffectProps) {
 
 export type UseRevealEffect = ReturnType<typeof useRevealEffect>
 
-export function useRevealEffect(elRef: MaybeElementRef, props?: RevealEffectProps) {
+export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) {
   const ins = { el: elRef, update, mount, unmount }
   const defDuration = 1000
 
