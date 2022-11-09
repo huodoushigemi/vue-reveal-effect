@@ -1,7 +1,7 @@
 {
   "name": "vue-reveal-effect",
   "private": false,
-  "version": "0.0.10",
+  "version": "0.0.12",
   "type": "module",
   "main": "./dist/index.cjs.js",
   "module": "./dist/index.es.js",
@@ -16,13 +16,13 @@
   "license": "MIT",
   "scripts": {
     "dev": "vite",
-    "build": "rollup -c",
+    "build": "rimraf dist && rollup -c",
     "docs": "vite build",
     "preview": "vite preview"
   },
   "dependencies": {
     "@ctrl/tinycolor": "^3.4.1",
-    "@vueuse/core": "^9.3.1",
+    "@vueuse/core": "^9.0.0",
     "vue": "^3.0.0"
   },
   "devDependencies": {
@@ -31,7 +31,7 @@
     "rollup-plugin-dts": "^5.0.0",
     "rollup-plugin-esbuild": "^4.10.2",
     "rollup-plugin-postcss": "^4.0.2",
-    "rollup-plugin-typescript2": "^0.34.1",
+    "typescript": "^4.8.4",
     "vite": "^3.1.0"
   },
   "keywords": [
