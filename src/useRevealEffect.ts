@@ -1,4 +1,4 @@
-import { hasOwn, MaybeComputedRef, MaybeElement, MaybeElementRef, MaybeRef, unrefElement, until, useMouse, useMousePressed, useTransition } from '@vueuse/core'
+import { hasOwn, MaybeElement, unrefElement, until, useMouse, useMousePressed, useTransition } from '@vueuse/core'
 import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from 'vue'
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
@@ -14,7 +14,7 @@ function knock(p: [number, number], rect: DOMRect, threshold = 0) {
 }
 
 // 鼠标位置
-const { x: px, y: py } = useMouse({ initialValue: { x: null, y: null } })
+const { x: px, y: py } = useMouse({ initialValue: { x: null, y: null }, type: 'client' })
 
 const list = reactive<UseRevealEffect[]>([])
 
