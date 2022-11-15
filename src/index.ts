@@ -5,7 +5,7 @@ export * from './useRevealEffect'
 
 const map = new WeakMap<HTMLElement, UseRevealEffect>()
 
-const RevealEffectDirective: Directive<HTMLElement, RevealEffectProps> = {
+export const RevealEffectDirective: Directive<HTMLElement, RevealEffectProps> = {
   mounted(el, binding) {
     const reveal = useRevealEffect(el, {
       ...binding.value,
