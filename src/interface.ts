@@ -14,7 +14,7 @@ export const darkProps = {
   bg: 'rgba(100, 100, 100, .2)'
 }
 
-type DeeUnref<T> = T extends Ref<infer V> ? DeeUnref<V> : T
+type DeepUnref<T> = T extends Ref<infer V> ? DeepUnref<V> : T
 
 export const defProps = {
   ...darkProps,
@@ -26,8 +26,10 @@ export const defProps = {
   disabled: false
 }
 
+export type MaybeGetterRef<T> = ((el: HTMLElement) => T) | Ref<T> | T
+
 export type RevealEffectProps = {
-  [k in keyof typeof defProps]?: MaybeRef<DeeUnref<typeof defProps[k]>>
+  [k in keyof typeof defProps]?: MaybeGetterRef<DeepUnref<typeof defProps[k]>>
 }
 
 export type RevealEffectProps2 = typeof defProps

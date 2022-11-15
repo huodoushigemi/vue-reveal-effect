@@ -3,7 +3,7 @@ import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from '
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import { darkProps, defProps, lightProps, prefixCls, RevealEffectProps, RevealEffectProps2 } from './interface'
+import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffectProps, RevealEffectProps2 } from './interface'
 import './style.css'
 
 // 边缘检测
@@ -40,7 +40,10 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
   const ins = { el: elRef, update, mount, unmount }
   const defDuration = 1000
 
-  const el = unrefElement(elRef)
+  const el = unrefElement(elRef) as HTMLElement
+
+  const resolveUnref = <T>(e: MaybeGetterRef<T>): T => (typeof e === 'function' ? (e as any)(el) : unref(e))
+
   const { pressed } = useMousePressed({ target: el })
 
   watch(pressed, async val => {
@@ -102,8 +105,8 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
     if (px.value == null || py.value == null) return
 
     if ($props) props = $props
-    let _props = Object.keys(props ?? {}).reduce((o, e) => ((o[e] = unref(props[e])), o), {}) as RevealEffectProps2
-    const light = [_props.light, defaultProps?.light, defProps.light].map(unref).find(e => e != null)
+    let _props = Object.keys(props ?? {}).reduce((o, e) => ((o[e] = resolveUnref(props[e])), o), {}) as RevealEffectProps2
+    const light = [_props.light, defaultProps?.light, defProps.light].map(resolveUnref).find(e => e != null)
     _props = {
       ...defProps,
       ...defaultProps,
