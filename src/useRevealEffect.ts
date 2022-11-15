@@ -3,7 +3,7 @@ import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from '
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffectProps, RevealEffectProps2 } from './interface'
+import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffectProps, RevealEffectProps2, UnMaybeGetterRef } from './interface'
 import './style.css'
 
 // 边缘检测
@@ -43,6 +43,19 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
   const el = unrefElement(elRef) as HTMLElement
 
   const resolveUnref = <T>(e: MaybeGetterRef<T>): T => (typeof e === 'function' ? (e as any)(el) : unref(e))
+  const resolveFind = <K extends keyof RevealEffectProps>(arr: Array<RevealEffectProps>, k: K): UnMaybeGetterRef<RevealEffectProps[K]> => {
+    let ret
+    for (let i = 0; i < arr.length; i++) {
+      if ((ret = resolveUnref(arr[i]?.[k])) != null) return ret
+    }
+  }
+  const resolveObj = <T>(obj: T): { [K in keyof T]: UnMaybeGetterRef<T[K]> } => {
+    const ret = {} as any
+    for (const key in obj) {
+      ret[key] = resolveUnref(obj[key])
+    }
+    return ret
+  }
 
   const { pressed } = useMousePressed({ target: el })
 
@@ -105,15 +118,15 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
     if (px.value == null || py.value == null) return
 
     if ($props) props = $props
-    let _props = Object.keys(props ?? {}).reduce((o, e) => ((o[e] = resolveUnref(props[e])), o), {}) as RevealEffectProps2
-    const light = [_props.light, defaultProps?.light, defProps.light].map(resolveUnref).find(e => e != null)
-    _props = {
+    const light = resolveFind([props, defaultProps, defProps], 'light')
+    const colorModeProps = light ? lightProps : darkProps
+    let _props = resolveObj({
       ...defProps,
       ...defaultProps,
-      ..._props,
-      borderColor: hasOwn(_props, 'borderColor') ? _props.borderColor : light ? lightProps.borderColor : darkProps.borderColor,
-      bgColor: hasOwn(_props, 'bgColor') ? _props.bgColor : light ? lightProps.bgColor : darkProps.bgColor
-    }
+      ...props,
+      borderColor: hasOwn(props, 'borderColor') ? resolveUnref(props.borderColor) : resolveFind([defaultProps, colorModeProps], 'borderColor'),
+      bgColor: hasOwn(props, 'bgColor') ? resolveUnref(props.bgColor) : resolveFind([defaultProps, colorModeProps], 'bgColor')
+    })
 
     // border
     removeBorder()
