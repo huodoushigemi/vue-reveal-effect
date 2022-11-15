@@ -2,9 +2,9 @@ import { computed, createApp, watchEffect } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { isDark } from './dark'
-import RevealEffect, { setDefaultProps } from 'vue-reveal-effect'
+import RevealEffect from 'vue-reveal-effect'
 
-setDefaultProps({
+RevealEffect.setDefaultProps({
   light: isDark
 })
 

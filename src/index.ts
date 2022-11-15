@@ -1,15 +1,11 @@
-import { Directive, Plugin, unref } from 'vue'
+import { Directive, unref } from 'vue'
 import { name, RevealEffectProps } from './interface'
-import { UseRevealEffect, useRevealEffect } from './useRevealEffect'
+import { UseRevealEffect, useRevealEffect, setDefaultProps } from './useRevealEffect'
 export * from './useRevealEffect'
 
 const map = new WeakMap<HTMLElement, UseRevealEffect>()
 
-const RevealEffect: Directive<HTMLElement, RevealEffectProps> & Plugin & { name: string } = {
-  name,
-  install(app) {
-    app.directive(name, RevealEffect)
-  },
+const RevealEffectDirective: Directive<HTMLElement, RevealEffectProps> = {
   mounted(el, binding) {
     const reveal = useRevealEffect(el, {
       ...binding.value,
@@ -26,6 +22,14 @@ const RevealEffect: Directive<HTMLElement, RevealEffectProps> & Plugin & { name:
   unmounted(el) {
     map.get(el)?.unmount()
     map.delete(el)
+  }
+}
+
+const RevealEffect = {
+  name,
+  setDefaultProps,
+  install(app) {
+    app.directive(name, RevealEffectDirective)
   }
 }
 
