@@ -6,12 +6,12 @@ export const prefixCls = `x-${name}`
 
 export const lightProps = {
   borderColor: 'rgba(200, 200, 200, .4)',
-  bg: 'rgba(200, 200, 200, .2)'
+  bgColor: 'rgba(200, 200, 200, .2)'
 }
 
 export const darkProps = {
   borderColor: 'rgba(100, 100, 100, .4)',
-  bg: 'rgba(100, 100, 100, .2)'
+  bgColor: 'rgba(100, 100, 100, .2)'
 }
 
 type DeepUnref<T> = T extends Ref<infer V> ? DeepUnref<V> : T

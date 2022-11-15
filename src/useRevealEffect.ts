@@ -112,7 +112,7 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
       ...defaultProps,
       ..._props,
       borderColor: hasOwn(_props, 'borderColor') ? _props.borderColor : light ? lightProps.borderColor : darkProps.borderColor,
-      bg: hasOwn(_props, 'bg') ? _props.bg : light ? lightProps.bg : darkProps.bg
+      bgColor: hasOwn(_props, 'bgColor') ? _props.bgColor : light ? lightProps.bgColor : darkProps.bgColor
     }
 
     // border
@@ -134,14 +134,14 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
     removeBg()
     const hasKnock = knock([px.value, py.value], rect)
 
-    if ((hasKnock || handing.value) && _props.bg) {
+    if ((hasKnock || handing.value) && _props.bgColor) {
       if (hasKnock) KnockP = { x: px.value, y: py.value }
 
       const x = KnockP.x - rect.x
       const y = KnockP.y - rect.y
 
       if (hasKnock) {
-        const radialGradient = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bg}, transparent 100%)`
+        const radialGradient = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bgColor}, transparent 100%)`
         el.style.setProperty(`--xRadialGradient`, radialGradient)
       }
 
@@ -149,7 +149,7 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
       if (handing.value && _props.clickEffect) {
         const low = 0.1
         const high = 1
-        const tcolor = new TinyColor(_props.bg)
+        const tcolor = new TinyColor(_props.bgColor)
         const color = tcolor.setAlpha(tcolor.getAlpha() * (low + (high - low) * (1 - animation.value))).toHex8String()
         const splash = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, transparent ${gradient.value[0]}%, ${color} ${gradient.value[1]}%, transparent ${gradient.value[2]}%)`
         el.style.setProperty(`--xSplash`, splash)
