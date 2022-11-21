@@ -116,6 +116,8 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
 
   function update($props?: RevealEffectProps) {
     if (px.value == null || py.value == null) return
+    
+    el.classList.add(prefixCls)
 
     if ($props) props = $props
     const light = resolveFind([props, defaultProps, defProps], 'light')
@@ -182,7 +184,6 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
   }
 
   function mount() {
-    el.classList.add(prefixCls)
     list.includes(ins) || list.push(ins)
   }
   function unmount() {
