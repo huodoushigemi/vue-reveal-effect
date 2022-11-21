@@ -1,5 +1,5 @@
 import { usePreferredDark } from '@vueuse/core'
-import { Ref, UnwrapRef } from 'vue'
+import { Ref } from 'vue'
 
 export const name = 'reveal-effect'
 export const prefixCls = `x-${name}`
@@ -31,8 +31,4 @@ export type UnMaybeGetterRef<T> = T extends (...args) => infer V ? V : DeepUnref
 
 export type RevealEffectProps = {
   [k in keyof typeof defProps]?: MaybeGetterRef<DeepUnref<typeof defProps[k]>>
-}
-
-export type RevealEffectProps2 = {
-  [k in keyof typeof defProps]?: DeepUnref<typeof defProps[k]>
 }

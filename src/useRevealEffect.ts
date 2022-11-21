@@ -3,7 +3,7 @@ import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from '
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
 
-import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffectProps, RevealEffectProps2, UnMaybeGetterRef } from './interface'
+import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffectProps, UnMaybeGetterRef } from './interface'
 import './style.css'
 
 // 边缘检测
@@ -116,7 +116,7 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
 
   function update($props?: RevealEffectProps) {
     if (px.value == null || py.value == null) return
-    
+
     el.classList.add(prefixCls)
 
     if ($props) props = $props
