@@ -1,10 +1,8 @@
-<center>
 <h2>Vue Reveal Effect</h2>
 
 [![fork](https://img.shields.io/github/forks/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
 [![stars](https://img.shields.io/github/stars/huodoushigemi/vue-reveal-effect.svg?style=flat-square)](https://github.com/huodoushigemi/vue-reveal-effect)
-
-</center>
+![npm](https://img.shields.io/npm/dw/vue-reveal-effect?style=flat-square)
 
 ![vue-reveal-effect](https://raw.githubusercontent.com/huodoushigemi/vue-reveal-effect/main/example/doc/screenshot.png)
 
@@ -31,7 +29,7 @@ npm i -S vue-reveal-effect
 <h1 id="reveal3">REVEAL EFFECT</h1>
 
 <script>
-  import { useRevealEffect } from "vue-reveal-effect";
+  import { useRevealEffect } from 'vue-reveal-effect';
 
   const options2 = {
     borderWidth: 4,
@@ -46,9 +44,9 @@ npm i -S vue-reveal-effect
     clickEffect: false
   }
 
-  useRevealEffect(document.getElementById("reveal1"));
-  useRevealEffect(document.getElementById("reveal2"), options2);
-  useRevealEffect(document.getElementById("reveal3"), options3);
+  useRevealEffect(document.getElementById('reveal1'));
+  useRevealEffect(document.getElementById('reveal2'), options2);
+  useRevealEffect(document.getElementById('reveal3'), options3);
 </script>
 ```
 
