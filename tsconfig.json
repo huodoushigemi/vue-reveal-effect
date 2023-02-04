@@ -8,6 +8,7 @@
     "moduleResolution": "node",
     "strict": true,
     "jsx": "preserve",
+    "declaration": true,
     "strictNullChecks": false,
     "sourceMap": true,
     "resolveJsonModule": true,
