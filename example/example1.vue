@@ -42,7 +42,7 @@ const opt = {
   right: 0;
   bottom: 0;
   left: 0;
-  border: 2px solid rgba(255, 255, 255, 0.6);
+  border: 2px solid rgba(255, 255, 255, 0.4);
 }
 
 .img > img {
