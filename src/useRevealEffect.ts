@@ -1,5 +1,6 @@
 import { hasOwn, MaybeElement, unrefElement, until, useMouse, useMousePressed, useTransition } from '@vueuse/core'
-import { computed, reactive, ref, triggerRef, unref, watch, watchEffect } from 'vue'
+import { computed, reactive, ref, triggerRef, unref, watch, watchPostEffect } from 'vue'
+import { queuePostFlushCb } from '@vue/runtime-core'
 import { remove } from '@vue/shared'
 import { TinyColor } from '@ctrl/tinycolor'
 
@@ -7,9 +8,9 @@ import { darkProps, defProps, lightProps, MaybeGetterRef, prefixCls, RevealEffec
 import './style.css'
 
 // 边缘检测
-function knock(p: [number, number], rect: DOMRect, threshold = 0) {
-  const x = p[0] - rect.x
-  const y = p[1] - rect.y
+function knock(px: number, py: number, rect: DOMRect, threshold = 0) {
+  const x = px - rect.x
+  const y = py - rect.y
   return x >= -threshold && x <= rect.width + threshold && y >= -threshold && y <= rect.height + threshold
 }
 
@@ -18,7 +19,7 @@ const { x: px, y: py } = useMouse({ initialValue: { x: null, y: null }, type: 'c
 
 const list = reactive<UseRevealEffect[]>([])
 
-watchEffect(() => {
+watchPostEffect(() => {
   list.forEach(e => {
     e.update()
   })
@@ -112,11 +113,16 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
     return until(complete).toBeTruthy()
   }
 
-  let KnockP = { x: null, y: null }
+  let knockP = { x: null, y: null }
+  let knockBorder = false
+  let showRG = false
 
   function update($props?: RevealEffectProps) {
-    if (px.value == null || py.value == null) return
+    const $px = px.value
+    const $py = py.value
+    if ($px == null || $py == null) return
 
+    const rect = el.getBoundingClientRect()
     el.classList.add(prefixCls)
 
     if ($props) props = $props
@@ -131,33 +137,30 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
     })
 
     // border
-    removeBorder()
-    const rect = el.getBoundingClientRect()
-    if (_props.borderWidth && knock([px.value, py.value], rect, _props.borderGradientSize)) {
-      const x = px.value - rect.x
-      const y = py.value - rect.y
-      const vars = {
-        xBorderImage: `radial-gradient(${_props.borderGradientSize}px at ${x}px ${y}px, ${_props.borderColor}, transparent) 1`,
-        xBorderWidth: _props.borderWidth + 'px'
-      }
-      for (const key in vars) {
-        el.style.setProperty(`--${key}`, vars[key])
-      }
+    if (_props.borderWidth && knock($px, $py, rect, _props.borderGradientSize)) {
+      const x = $px - rect.x
+      const y = $py - rect.y
+
+      queuePostFlushCb(() => el.style.setProperty(`--xBorderImage`, `radial-gradient(${_props.borderGradientSize}px at ${x}px ${y}px, ${_props.borderColor}, transparent) 1`))
+      queuePostFlushCb(() => el.style.setProperty(`--xBorderWidth`, `${_props.borderWidth}px`))
+      knockBorder = true
+    } else if (knockBorder) {
+      queuePostFlushCb(() => removeBorder())
+      knockBorder = false
     }
 
     // background
-    removeBg()
-    const hasKnock = knock([px.value, py.value], rect)
+    const knockBlock = knock($px, $py, rect)
 
-    if ((hasKnock || handing.value) && _props.bgColor) {
-      if (hasKnock) KnockP = { x: px.value, y: py.value }
+    if ((knockBlock || handing.value) && _props.bgColor) {
+      const x = knockP.x - rect.x
+      const y = knockP.y - rect.y
 
-      const x = KnockP.x - rect.x
-      const y = KnockP.y - rect.y
-
-      if (hasKnock) {
-        const radialGradient = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bgColor}, transparent 100%)`
-        el.style.setProperty(`--xRadialGradient`, radialGradient)
+      if (knockBlock) {
+        knockP = { x: $px, y: $py }
+        queuePostFlushCb(() => el.style.setProperty(`--xRadialGradient`, `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, ${_props.bgColor}, transparent 100%)`))
+      } else {
+        queuePostFlushCb(() => el.style.removeProperty(`--xRadialGradient`))
       }
 
       // splash
@@ -167,8 +170,15 @@ export function useRevealEffect(elRef: MaybeElement, props?: RevealEffectProps) 
         const tcolor = new TinyColor(_props.bgColor)
         const color = tcolor.setAlpha(tcolor.getAlpha() * (low + (high - low) * (1 - animation.value))).toHex8String()
         const splash = `radial-gradient(${_props.bgGradientSize}px at ${x}px ${y}px, transparent ${gradient.value[0]}%, ${color} ${gradient.value[1]}%, transparent ${gradient.value[2]}%)`
-        el.style.setProperty(`--xSplash`, splash)
+        queuePostFlushCb(() => el.style.setProperty(`--xSplash`, splash))
+      } else {
+        queuePostFlushCb(() => el.style.removeProperty(`--xSplash`))
       }
+
+      showRG = true
+    } else if (showRG) {
+      queuePostFlushCb(() => removeBg())
+      showRG = false
     }
   }
 
